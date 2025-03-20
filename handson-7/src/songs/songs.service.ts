@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSongDTO} from './create.song.dto'
-import { Songs } from './songs.entity';
+import { CreateSongDTO} from './create-song.dto'
+import { Songs } from './song.entity';
 
 @Injectable()
 export class SongsService {

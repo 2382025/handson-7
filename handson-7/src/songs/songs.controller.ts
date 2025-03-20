@@ -1,24 +1,25 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { SongsService } from './songs.service';
-import { CreateSongDTO } from './create.song.dto';
+import { CreateSongDTO } from './create-song.dto';
+import { ExecutionTime } from 'src/execution-time.interceptors';
 
 @Controller('songs')
 export class SongsController {
-    constructor (private readonly songsService : SongsService) {}
+        constructor(private readonly songsService: SongsService){}
+    
     @Get()
-    FindAll() {
-        return this.songsService.findAll() ;
-
+    findAll(){
+        return this.songsService.findAll;
     }
 
     @Get(':id')
-    FindOne(@Param('id') id: number) {
+    findOne(@Param('id') id: number){
         return this.songsService.findOne(id);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() createSongDTO : CreateSongDTO) {
-        return this.songsService.updateOne(id,createSongDTO);
+    update(@Param('id') id: number, @Body() createSongDTO: CreateSongDTO){
+        return this.songsService.updateOne(id, createSongDTO);
     }
 
     @Delete(':id')
@@ -27,10 +28,8 @@ export class SongsController {
     }
 
     @Post()
-    create(@Body() createSongDTO : CreateSongDTO) {
-        return this.songsService.create(createSongDTO);    
-    }
-
-
-
+    @UseInterceptors(ExecutionTime)
+    create(@Body() createSongDTO: CreateSongDTO){
+        return this.songsService.create(createSongDTO);
+}
 }
